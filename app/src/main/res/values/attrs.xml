@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TempView">
+        <attr name="color0" format="color"></attr>
+        <attr name="color1" format="color"></attr>
+        <attr name="color2" format="color"></attr>
+        <attr name="color3" format="color"></attr>
+        <attr name="color4" format="color"></attr>
+
+        <attr name="textSizeBig" format="dimension"></attr>
+        <attr name="textSizeSmall" format="dimension"></attr>
+        <attr name="scale" format="float"></attr>
+        <attr name="duration" format="integer"></attr>
+        <attr name="unit" format="string"></attr>
+        <attr name="formatNumber" format="string"></attr>
+    </declare-styleable>
+
+</resources>
