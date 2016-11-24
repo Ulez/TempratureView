@@ -50,7 +50,8 @@ public class TempView extends View {
                 typedArray.getColor(R.styleable.TempView_color2, Color.parseColor("#259b24")),
                 typedArray.getColor(R.styleable.TempView_color3, Color.parseColor("#f57c00")),
                 typedArray.getColor(R.styleable.TempView_color3, Color.parseColor("#e91e63"))};
-
+        f = new float[colors.length][3];
+        result = new float[3];
         paint = new Paint();
         paint.setStrokeWidth(4);
         paint.setAntiAlias(true);
@@ -74,6 +75,7 @@ public class TempView extends View {
             formatNumber="%.0f";
         }
         typedArray.recycle();
+        bounds1 = new Rect();
     }
 
     @Override
@@ -97,14 +99,13 @@ public class TempView extends View {
     double currDegree = currPer * Math.PI * 2 * endDegrees / 360;//当前转过的弧度；
     double per_end = 0.66;
 
+    Rect bounds1;
     @Override
     protected void onDraw(Canvas canvas) {
         currDegree = currPer * Math.PI * 2 * endDegrees / 360;
 //        Log.e(TAG, "当前转过的角度=" + currDegree / Math.PI / 2 * 360);
         String result = String.format(formatNumber, currPer * 100);
         showText2 = result + unit;
-
-        Rect bounds1 = new Rect();
         bigTextPaint.getTextBounds(showText2, 0, showText2.length(), bounds1);
         Paint.FontMetricsInt fontMetrics = bigTextPaint.getFontMetricsInt();
         int baseline = (mHeight - fontMetrics.bottom + fontMetrics.top) / 2 - fontMetrics.top;
@@ -133,7 +134,6 @@ public class TempView extends View {
     double PI2 = 2 * Math.PI;
 
     private float getOffsetX(String showString, Paint paint) {
-        Rect bounds1 = new Rect();
         paint.getTextBounds(showString, 0, showString.length(), bounds1);
         Paint.FontMetricsInt fontMetrics = paint.getFontMetricsInt();
         int w = bounds1.width();
@@ -145,7 +145,6 @@ public class TempView extends View {
     }
 
     private float getOffsetY(String showString, Paint paint) {
-        Rect bounds1 = new Rect();
         paint.getTextBounds(showString, 0, showString.length(), bounds1);
         Paint.FontMetricsInt fontMetrics = paint.getFontMetricsInt();
         int w = bounds1.width();
@@ -175,14 +174,14 @@ public class TempView extends View {
      * @param colors
      * @return
      */
-    public static int getCurrentColor(float percent, int[] colors) {
-        float[][] f = new float[colors.length][3];
+    float[][] f;
+    float[] result;
+    public int getCurrentColor(float percent, int[] colors) {
         for (int i = 0; i < colors.length; i++) {
             f[i][0] = (colors[i] & 0xff0000) >> 16;
             f[i][1] = (colors[i] & 0x00ff00) >> 8;
             f[i][2] = (colors[i] & 0x0000ff);
         }
-        float[] result = new float[3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < f.length; j++) {
                 if (f.length == 1 || percent == j / (f.length - 1f)) {
